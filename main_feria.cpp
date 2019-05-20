@@ -50,7 +50,7 @@ lastFrame = 0.0f;
 glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 void myData(void);
-void display(Model, Model, Model,Model);
+void display(Model, Model, Model, Model);
 void getResolution(void);
 void animate(void);
 void circulos(void);
@@ -559,6 +559,52 @@ void myData() //Recordemos que antes aquí teníamos un cubo, pero ahora hay un 
 
 
 
+	// texture 16
+		// ---------
+	glGenTextures(16, &texture16);
+	glBindTexture(GL_TEXTURE_2D, texture16); //tipo 2D 
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //filtro 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	data = stbi_load("texturas_feria/rayas.jpg", &width, &height, &nrChannels, 0);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Failed to load texture two" << std::endl;
+	}
+	stbi_image_free(data);
+
+	// texture 17
+		// ---------
+	glGenTextures(17, &texture17);
+	glBindTexture(GL_TEXTURE_2D, texture17); //tipo 2D 
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //filtro 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	data = stbi_load("texturas_feria/rojo.jpg", &width, &height, &nrChannels, 0);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Failed to load texture two" << std::endl;
+	}
+	stbi_image_free(data);
+
 
 }
 
@@ -642,7 +688,7 @@ void animate(void)
 	if (play) {
 
 		if (estado == 0) { //ESTADO A
-		
+
 
 
 			if (movKit_x > -9.0) {//
@@ -653,7 +699,7 @@ void animate(void)
 			else {
 
 				estado = 1;
-				
+
 			}
 		}
 
@@ -692,7 +738,7 @@ void animate(void)
 
 			}
 		}
-		
+
 		if (estado == 4) { //ESTADO b
 
 			if (movKit_x > -75) {//SIGO EN EL ESTADO B    
@@ -702,7 +748,7 @@ void animate(void)
 				//printf("%f \n", movKit_x);
 			}
 			else {
-				
+
 				rotKit_y = 210.0f;
 				estado = 5;
 			}
@@ -730,7 +776,7 @@ void animate(void)
 				//printf("%f \n", movKit_x);
 			}
 			else {
-				
+
 				rotKit_y = 130.0f;
 				estado = 7;
 			}
@@ -738,7 +784,7 @@ void animate(void)
 
 		if (estado == 7) { //ESTADO b
 
-			if (movKit_x <-80) {//SIGO EN EL ESTADO B    
+			if (movKit_x < -80) {//SIGO EN EL ESTADO B    
 				movKit_x += 1.0f;
 				movKit_z -= 0.2f;
 				movKit_y += 0.2;
@@ -754,16 +800,16 @@ void animate(void)
 
 			if (movKit_x < -60) {//SIGO EN EL ESTADO B    
 				movKit_x += 1.0f;
-			
+
 				movKit_y -= 0.1f;
 			}
 			else {
-				
+
 				rotKit_y = 90.0f;
 				estado = 9;
 			}
 		}
-		
+
 
 		if (estado == 9) { //ESTADO b
 
@@ -895,7 +941,7 @@ void animate(void)
 			if (movKit_x < 72.0) {//SIGO EN EL ESTADO B    
 				movKit_x += 0.4f;
 
-		
+
 			}
 			else {
 
@@ -993,13 +1039,13 @@ void animate(void)
 
 			if (movKit_x > 87.0f) {//SIGO EN EL ESTADO B    
 				movKit_x -= 1.0f;
-				
+
 
 				printf("%f \n", movKit_z);
 			}
 			else {
 
-				
+
 				estado = 26;
 			}
 		}
@@ -1023,7 +1069,7 @@ void animate(void)
 
 			if (movKit_x > 0.0f) {//SIGO EN EL ESTADO B    
 				movKit_x -= 1.0f;
-				
+
 
 			}
 			else {
@@ -1046,7 +1092,7 @@ void animate(void)
 
 }
 
-void display(Model Tree, Model FoodCart, Model Soldado1,Model Carrito)
+void display(Model Tree, Model FoodCart, Model Soldado1, Model Carrito)
 {
 	// bind textures on corresponding texture units
 	glActiveTexture(GL_TEXTURE);			//activar la textura a 0. 
@@ -2497,6 +2543,68 @@ void display(Model Tree, Model FoodCart, Model Soldado1,Model Carrito)
 
 
 
+	/////JUEGO DE DESTREZA TOPOS//////
+	glActiveTexture(GL_TEXTURE);
+	glBindTexture(GL_TEXTURE_2D, texture16);
+
+	model = glm::mat4(1.0f);
+	modelTemp = model;
+	model = glm::translate(model, glm::vec3(-35.0f, 1.0f, -65.0f));
+	model = glm::scale(model, glm::vec3(13, 2, 20));
+	projectionShader.setMat4("model", model);
+	projectionShader.setVec3("aColor", glm::vec3(0.0f, 0.0f, 0.0f));
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+
+
+	model = glm::translate(model, glm::vec3(0.0f, 6.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(1, .16, 1));
+	projectionShader.setMat4("model", model);
+	projectionShader.setVec3("aColor", glm::vec3(0.0f, 0.0f, 0.0f));
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+
+	glActiveTexture(GL_TEXTURE);
+	glBindTexture(GL_TEXTURE_2D, texture17);
+
+	model = glm::translate(model, glm::vec3(0.45f, -17.0f, 0.45f));
+	model = glm::scale(model, glm::vec3(0.03, 35.0, 0.02));
+	projectionShader.setMat4("model", model);
+	projectionShader.setVec3("aColor", glm::vec3(0.0f, 0.0f, 0.0f));
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -43.0f));
+	model = glm::scale(model, glm::vec3(1.0, 1.0, 1.0));
+	projectionShader.setMat4("model", model);
+	projectionShader.setVec3("aColor", glm::vec3(0.0f, 0.0f, 0.0f));
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+
+	model = glm::translate(model, glm::vec3(-40.0f, 0.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(1.0, 1.0, 1.0));
+	projectionShader.setMat4("model", model);
+	projectionShader.setVec3("aColor", glm::vec3(0.0f, 0.0f, 0.0f));
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	//-------------------------------------------------------------------------------------------
@@ -3496,9 +3604,9 @@ void display(Model Tree, Model FoodCart, Model Soldado1,Model Carrito)
 		projectionShader.setVec3("aColor", glm::vec3(0.0f, 0.0f, 0.0f));
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	}
-	
+
 	model = modelTemp;
-	model = glm::translate(model, glm::vec3(100.0f, -16.0f,- 6.5f));
+	model = glm::translate(model, glm::vec3(100.0f, -16.0f, -6.5f));
 	model = glm::scale(model, glm::vec3(4.0, 1.0, 0.250));
 	projectionShader.setMat4("model", model);
 	projectionShader.setVec3("aColor", glm::vec3(0.0f, 0.0f, 0.0f));
@@ -3580,7 +3688,7 @@ void display(Model Tree, Model FoodCart, Model Soldado1,Model Carrito)
 	projectionShader.setMat4("model", model);
 	projectionShader.setVec3("aColor", glm::vec3(0.0f, 1.0f, 0.0f));
 	Carrito.Draw(modelShader);
-	
+
 
 
 	glBindVertexArray(VAO);
@@ -3635,7 +3743,7 @@ int main()
 	Model Tree = ((char*)"Models/arbol2/Tree_Conifer_1.obj");
 	Model FoodCart = ((char*)"Models/Cart_food/street_cart_meetball.obj");
 	Model Soldado = ((char*)"Models/Soldier_with_binoculars/18826_Soldier_with_binoculars_in_one_hand_and_pointing_with_the_other_hand_v1_NEW.obj");
-	Model Carrito= ((char*)"Models/carrito/wooden_model _truck.obj");
+	Model Carrito = ((char*)"Models/carrito/wooden_model _truck.obj");
 
 
 	//-------------------------------------------------------
@@ -3665,7 +3773,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//Mi función de dibujo
-		display(Tree, FoodCart, Soldado,Carrito);
+		display(Tree, FoodCart, Soldado, Carrito);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
